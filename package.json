@@ -15,7 +15,7 @@
     "babel-plugin-relay": "^8.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-relay": "^8.0.0",
+    "react-relay": "0.0.0-experimental-5f1cb628",
     "react-scripts": "3.3.0",
     "relay-runtime": "^8.0.0",
     "typescript": "^3.7.4"
@@ -25,7 +25,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "update-schema": "get-graphql-schema -h \"Authorization=bearer 1fab5fd487a12ec8099ec9874ac9620492505b2a\" https://api.github.com/graphql > schema/schema.graphql",
+    "update-schema": "get-graphql-schema -h \"Authorization=bearer $REACT_APP_GITHUB_AUTH_TOKEN\" https://api.github.com/graphql > schema/schema.graphql",
     "relay": "relay-compiler --schema ./schema/schema.graphql --src ./src/ --language typescript --extensions ts tsx"
   },
   "eslintConfig": {

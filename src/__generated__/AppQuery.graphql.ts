@@ -1,13 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 648629cdcf726195878a33bd2e5a3032 */
+/* @relayHash 4536206f71562a89e511dbea79a1eef8 */
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type AppQueryVariables = {};
 export type AppQueryResponse = {
     readonly viewer: {
-        readonly " $fragmentRefs": FragmentRefs<"User_user">;
+        readonly " $fragmentRefs": FragmentRefs<"User_user" | "UserAvatar_user">;
     };
 };
 export type AppQuery = {
@@ -21,6 +21,7 @@ export type AppQuery = {
 query AppQuery {
   viewer {
     ...User_user
+    ...UserAvatar_user
     id
   }
 }
@@ -33,7 +34,7 @@ fragment UserAvatar_user on User {
 fragment User_user on User {
   id
   name
-  ...UserAvatar_user
+  email
 }
 */
 
@@ -58,6 +59,11 @@ const node: ConcreteRequest = {
           {
             "kind": "FragmentSpread",
             "name": "User_user",
+            "args": null
+          },
+          {
+            "kind": "FragmentSpread",
+            "name": "UserAvatar_user",
             "args": null
           }
         ]
@@ -95,6 +101,13 @@ const node: ConcreteRequest = {
           {
             "kind": "ScalarField",
             "alias": null,
+            "name": "email",
+            "args": null,
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
             "name": "avatarUrl",
             "args": null,
             "storageKey": null
@@ -107,9 +120,9 @@ const node: ConcreteRequest = {
     "operationKind": "query",
     "name": "AppQuery",
     "id": null,
-    "text": "query AppQuery {\n  viewer {\n    ...User_user\n    id\n  }\n}\n\nfragment UserAvatar_user on User {\n  name\n  avatarUrl\n}\n\nfragment User_user on User {\n  id\n  name\n  ...UserAvatar_user\n}\n",
+    "text": "query AppQuery {\n  viewer {\n    ...User_user\n    ...UserAvatar_user\n    id\n  }\n}\n\nfragment UserAvatar_user on User {\n  name\n  avatarUrl\n}\n\nfragment User_user on User {\n  id\n  name\n  email\n}\n",
     "metadata": {}
   }
 };
-(node as any).hash = '51fbf21aa3ebf41b39390ccea990c113';
+(node as any).hash = '911fdd2dfc22bd82dd6936e4d7f1ea65';
 export default node;

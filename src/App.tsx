@@ -1,44 +1,33 @@
 import React from "react";
-import { QueryRenderer } from "react-relay";
+import { usePreloadedQuery, preloadQuery } from "react-relay/hooks";
 import { graphql } from "babel-plugin-relay/macro";
-import RelayContext from "./common/relay/RelayContext";
+import RelayEnvironment from "./common/relay/RelayEnvironment";
 import User from "./components/User";
-import { AppQuery as R } from "./__generated__/AppQuery.graphql";
+import AppQuery, { AppQuery as R } from "./__generated__/AppQuery.graphql";
 
-class TypedQueryRenderer extends QueryRenderer<R> {}
+const preloadedQuery = preloadQuery<R>(
+    RelayEnvironment,
+    AppQuery,
+    {},
+    { fetchPolicy: "store-or-network" }
+);
 
 const App: React.FC = () => {
-    return (
-        <RelayContext.Consumer>
-            {(modernEnvironment) => {
-                return (
-                    <TypedQueryRenderer
-                        environment={modernEnvironment}
-                        query={graphql`
-                            query AppQuery {
-                                viewer {
-                                    ...User_user
-                                }
-                            }
-                        `}
-                        variables={{}}
-                        render={({error, props}) => {
-                            if (error) {
-                                console.error(error);
-                                return <div>Error: {error.message}</div>;
-                            }
-
-                            if (!props) {
-                                return <div>Loading...</div>;
-                            }
-
-                            return <User user={props.viewer} />;
-                        }}
-                    />
-                );
-            }}
-        </RelayContext.Consumer>
+    const { viewer } = usePreloadedQuery<R>(
+        graphql`
+            query AppQuery {
+                viewer {
+                    ...User_user,
+                    ...UserAvatar_user
+                }
+            }
+        `,
+        preloadedQuery
     );
-}
+
+    return (
+        <User user={viewer} />
+    );
+};
 
 export default App;

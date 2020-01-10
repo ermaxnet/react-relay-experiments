@@ -1,15 +1,17 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import RelayContext from "./common/relay/RelayContext";
+import { RelayEnvironmentProvider } from "react-relay/hooks";
 import RelayEnvironment from "./common/relay/RelayEnvironment";
 
 ReactDOM.render(
-    <RelayContext.Provider value={RelayEnvironment}>
-        <App />
-    </RelayContext.Provider>,
+    <RelayEnvironmentProvider environment={RelayEnvironment}>
+        <Suspense fallback={"Loading..."}>
+            <App />
+        </Suspense>
+    </RelayEnvironmentProvider>,
     document.getElementById("root")
 );
 
