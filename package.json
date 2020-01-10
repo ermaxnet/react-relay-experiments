@@ -10,16 +10,23 @@
     "@types/node": "^12.12.24",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
+    "@types/react-relay": "^7.0.3",
+    "@types/relay-runtime": "^8.0.0",
+    "babel-plugin-relay": "^8.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-relay": "^8.0.0",
     "react-scripts": "3.3.0",
+    "relay-runtime": "^8.0.0",
     "typescript": "^3.7.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "update-schema": "get-graphql-schema -h \"Authorization=bearer 1fab5fd487a12ec8099ec9874ac9620492505b2a\" https://api.github.com/graphql > schema/schema.graphql",
+    "relay": "relay-compiler --schema ./schema/schema.graphql --src ./src/ --language typescript --extensions ts tsx"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,5 +42,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "get-graphql-schema": "^2.1.2",
+    "relay-compiler": "^8.0.0",
+    "relay-compiler-language-typescript": "^10.1.4"
   }
 }
